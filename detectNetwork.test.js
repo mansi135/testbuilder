@@ -10,18 +10,7 @@ var FILL_ME_IN = 'Fill this value in';
 
  
 describe('Introduction to Mocha Tests - READ ME FIRST', function() {
-  // A Mocha test is just a function!
-  // If the function throws an error when run, it fails.
-  // If it doesn't throw an error when run, it doesn't fail. 
-  // To read more about mocha, visit mochajs.org
-
-  // Once you've read and understood this section, please comment it out. 
-  // You will not be able to proceed with a failing test. 
-
-//  it('Throws an error so it fails', function() {
-//    throw new Error('Delete me!');
-//  });
-
+  
   it('Doesn\'t throw an error, so it doesn\'t fail', function() {
     // This test doesn't really test anything at all! It will pass no matter what.
     var even = function(num){
@@ -42,6 +31,7 @@ describe('Introduction to Mocha Tests - READ ME FIRST', function() {
     }
   });
 });
+
 describe('Diner\'s Club', function() {
   // Be careful, tests can have bugs too...
 
@@ -90,13 +80,13 @@ describe('Visa', function() {
  
 
   it('has a prefix of 4 and a length of 13', function() {
-    assert(detectNetwork('4123456789012') === 'Visa');
+    assert(detectNetwork('4901456789012') === 'Visa');
   });
 
   it('has a prefix of 4 and a length of 16', function() {
     assert(detectNetwork('4123456789012345') === 'Visa');
   });
-
+  
   it('has a prefix of 4 and a length of 19', function() {
     assert(detectNetwork('4123456789012345678') === 'Visa');
   });
@@ -147,79 +137,37 @@ describe('MasterCard', function() {
 });
 
 describe('Discover', function() {
-  // Tests without a function will be marked as "pending" and not run
-  // Implement these tests (and others) and make them pass!
+  
   var should = chai.should();
+  var lenArray = [16,19];
+  var preArray = ['65','644','645','646', '647', '648', '649','6011'];
+  var remArray = ['12345678901234','12345678901234599','1234567890123','1234567890777777','123456789066','123456789055509'];
 
-  it('has a prefix of 6011 and a length of 16',function(){
-    detectNetwork('6011444481230987').should.equal('Discover');
+  function testDiscover(prefix,l,string){
+    it('has a prefix of ' + prefix + ' and a length of ' + l,function(){
+    detectNetwork(string).should.equal('Discover');
   });
+  }
 
-  it('has a prefix of 6011 and a length of 19',function(){
-    detectNetwork('6011444481230987555').should.equal('Discover');
-  });
 
-  it('has a prefix of 65 and a length of 16',function(){
-    detectNetwork('6511444481230987').should.equal('Discover');
-  });
+  for(var i=0; i<preArray.length; i++){
+    for(var j=0; j<lenArray.length; j++){
+      if (preArray[i].length === 2){
+        var string = preArray[i] + remArray[j];
+      } else if (preArray[i].length === 3){
+        var string = preArray[i] + remArray[j+2];
+      } else {
+        var string = preArray[i] + remArray[j+4];
+      }
+      testDiscover(preArray[i],lenArray[j],string); 
+    }
+  }
 
-  it('has a prefix of 65 and a length of 19',function(){
-    detectNetwork('6511444481230987555').should.equal('Discover');
-  });
-
-  it('has a prefix of 644 and a length of 16',function(){
-    detectNetwork('6441532181230987').should.equal('Discover');
-  });
-
-  it('has a prefix of 645 and a length of 16',function(){
-    detectNetwork('6451532181230987').should.equal('Discover');
-  });
-
-  it('has a prefix of 646 and a length of 16',function(){
-    detectNetwork('6461532181230987').should.equal('Discover');
-  });
-
-  it('has a prefix of 647 and a length of 16',function(){
-    detectNetwork('6471532181230987').should.equal('Discover');
-  });
-
-  it('has a prefix of 648 and a length of 16',function(){
-    detectNetwork('6481532181230987').should.equal('Discover');
-  });
-
-  it('has a prefix of 649 and a length of 16',function(){
-    detectNetwork('6491532181230987').should.equal('Discover');
-  });
-
-  it('has a prefix of 644 and a length of 19',function(){
-    detectNetwork('6441532181230987018').should.equal('Discover');
-  });
-
-  it('has a prefix of 645 and a length of 19',function(){
-    detectNetwork('6451532181230987010').should.equal('Discover');
-  });
-
-  it('has a prefix of 646 and a length of 19',function(){
-    detectNetwork('6461532181230987010').should.equal('Discover');
-  });
-
-  it('has a prefix of 647 and a length of 19',function(){
-    detectNetwork('6471532181230987010').should.equal('Discover');
-  });
-
-  it('has a prefix of 648 and a length of 19',function(){
-    detectNetwork('6481532181230987010').should.equal('Discover');
-  });
-
-  it('has a prefix of 649 and a length of 19',function(){
-    detectNetwork('6491532181230987111').should.equal('Discover');
-  });
 
 });
 
 
 describe('Maestro', function() {
-  // Write full test coverage for the Maestro card
   
   var should = chai.should();
   var testArray = ['501881230987', '5018812309873', '50188123098734', '501881230987345', 
@@ -244,14 +192,6 @@ describe('Maestro', function() {
     testMaestro(prefixArray[j],(i+(j*8)),(12+i));
     }
   }
-
-  /*  For some reason- this code doesnt work !!
-  for(var i=0; i<8; i++){
-    it('has a prefix of 5018' + ' and a length of' + (i+12),function(){
-    detectNetwork(test_array[i]).should.equal('Maestro');
-  }); 
-
-  } */
 
 });
 
