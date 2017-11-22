@@ -181,7 +181,7 @@ describe('Maestro', function() {
 
   var prefixArray = ['5018','5020','5038','6304'];
 
-  function testMaestro(prefix,i,l){
+/*  function testMaestro(prefix,i,l){
     it('has a prefix of ' + prefix + ' and a length of ' + l,function(){
     detectNetwork(testArray[i]).should.equal('Maestro');
   });
@@ -190,6 +190,18 @@ describe('Maestro', function() {
   for(var j=0; j<4; j++){
     for(var i=0; i<8; i++) {
     testMaestro(prefixArray[j],(i+(j*8)),(12+i));
+    }
+  } */
+
+  function isMaestro(prefix,l){
+    it('has a prefix of ' + prefix + ' and a length of ' + l,function(){
+    detectNetwork(String(prefix).padEnd(l,0)).should.equal('Maestro');
+  });
+  }
+
+  for(var i=0; i<4; i++){
+    for(var l=12; l<=19; l++){
+      isMaestro(prefixArray[i],l);
     }
   }
 
